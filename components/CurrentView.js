@@ -1,55 +1,25 @@
 import React, { Component } from 'react';
 import Constants from 'expo-constants';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { connect } from 'react-redux';
 import {getPollutionThunk} from '../reducers/PollutionReducer';
 import {getWeatherThunk} from '../reducers/WeatherReducer';
 import TopBar from './TopBar';
 import AqiBar from './AqiBar';
 import HumidityBar from './HumidityBar';
+import {circleStyle} from './StyleFuncs';
 
-function getColorAqi (aqi) {
-  if (!aqi) return '#e2f1f8';
-  if (aqi >= 0 && aqi <= 50) return '#66BB6A'; // green
-  if (aqi >= 51 && aqi <= 100) return '#FFF176'; // yellow
-  if (aqi >= 101 && aqi <= 150) return '#FFA726'; // orange
-  if (aqi >= 151 && aqi <= 200) return '#EF5350'; // red
-  if (aqi >= 201 && aqi <= 300) return '#9C27B0'; // purple
-  if (aqi >= 301 && aqi <= 500) return '#880E4F'; // maroon
-}
-
-function getColorHumidity (humidity) {
-  if (!humidity) return '#e2f1f8';
-  if (humidity >= 0 && humidity <= 20) return '#B3E5FC';
-  if (humidity >= 21 && humidity <= 40) return '#4FC3F7';
-  if (humidity >= 41 && humidity <= 60) return '#03A9F4';
-  if (humidity >= 61 && humidity <= 80) return '#0288D1';
-  if (humidity >= 81 && humidity <= 100) return '#01579B';
-}
-
-function circleStyle (data) {
-  let color;
-  if (!data.length) {
-    color = getColorAqi();
-  } else if (data[0].hasOwnProperty('aqi')) {
-    color = getColorAqi(data[0].aqi);
-  } else {
-    color = getColorHumidity(data[0].humidity);
-  }
-  return {
-    width: 100,
-    height: 100,
-    borderRadius: 100/2,
-    backgroundColor: color,
-    textAlign: 'center'
-  }
-}
 
 class AppScreen extends React.Component {
   componentDidMount () {
     this.props.getPollution()
     this.props.getWeather()
   }
+
+  // _onPressButton () {
+  //   this.props.getPollution()
+  //   this.props.getWeather()
+  // }
 
   render () {
     return (
@@ -89,6 +59,13 @@ class AppScreen extends React.Component {
             </View>
           </View>
           <HumidityBar />
+          <View style={styles.buttonView}>
+            <Button
+              onPress={this._onPressButton}
+              title="Reload"
+              color="#a7c0cd"
+            />
+          </View>
         </View>
       </View>
     )
@@ -109,11 +86,19 @@ const styles = StyleSheet.create({
     marginTop: 16,
     padding: 8,
     backgroundColor: '#eceff1',
+    // borderLeftWidth: 1,
+    // borderRightWidth: 1,
+    // borderLeftColor: '#a7c0cd',
+    // borderRightColor: '#a7c0cd',
   },
   sectionContainer: {
     flex: .9,
     backgroundColor: '#eceff1',
     alignItems: 'center',
+    // borderLeftWidth: 1,
+    // borderRightWidth: 1,
+    // borderLeftColor: '#a7c0cd',
+    // borderRightColor: '#a7c0cd',
   },
   paragraph: {
     margin: 24,
@@ -131,6 +116,13 @@ const styles = StyleSheet.create({
     margin: 32,
     fontSize: 18,
     fontWeight: 'bold'
+  },
+  buttonView: {
+    backgroundColor: '#29434e',
+    color: 'white',
+    marginTop: 16,
+    borderColor: '#a7c0cd',
+    borderWidth: 1
   }
 });
 

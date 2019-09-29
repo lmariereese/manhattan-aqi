@@ -17,7 +17,7 @@ export default class TopBar extends React.Component {
         <Appbar.Content
           title="Manhattan AQI"
         />
-        {/* <Appbar.Action icon={<RefreshIcon />} /> */}
+        <Appbar.Action title="Refresh" />
       </Appbar.Header>
     );
   }
