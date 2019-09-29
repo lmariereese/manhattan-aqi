@@ -1,45 +1,39 @@
 import React from 'react';
+import { Text, View, StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
 import {Provider} from 'react-redux';
-import { StyleSheet, Text, View } from 'react-native';
-// import CurrentAQI from './client/components/CurrentAQI';
+import {createStore, applyMiddleware} from 'redux';
+import reducers from './reducers';
+import thunkMiddleware from 'redux-thunk';
+import PollutionView from './components/PollutionView';
+// import * as React from 'react';
+// import {store, getPollutionThunk} from './store'; // lyndsey maybe this doesn't need to be desctructured
 
+// You can import from local files
+import AssetExample from './components/AssetExample';
 
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Oh hey</Text>
-//     </View>
-//   );
-// }
+// or any pure javascript modules available in npm
+import { Card } from 'react-native-paper';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export default class App extends React.Component {
+class App extends React.Component {
   render() {
+    const store = createStore(reducers, applyMiddleware(thunkMiddleware));
     return (
       <Provider store={store}>
-        <View style={styles.container}>
-          <Text>AQI is</Text>
+        <View style={{flex: 1}}>
+          <PollutionView />
         </View>
       </Provider>
-    )
+      // <View style={styles.container}>
+      //   <Text style={styles.paragraph}>
+      //     "Here's some text!"
+      //   </Text>
+      //   <Card>
+      //     <AssetExample />
+      //   </Card>
+      // </View>
+    );
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   aqi: state.current.aqi,
-//   color: state.current.color
-// });
-
-// // const mapDispatchToProps = (dispatch) => ({
-
-// // });
-
-// export default connect(mapStateToProps)(App);
+export default App;
