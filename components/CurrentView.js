@@ -1,27 +1,30 @@
 import React, { Component } from 'react';
 import Constants from 'expo-constants';
-import { View, TextInput, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import {getPollutionThunk} from '../reducers/PollutionReducer';
 import {getWeatherThunk} from '../reducers/WeatherReducer';
+import TopBar from './TopBar';
+import AqiBar from './AqiBar';
+import HumidityBar from './HumidityBar';
 
 function getColorAqi (aqi) {
-  if (!aqi) return 'grey';
+  if (!aqi) return '#e2f1f8';
   if (aqi >= 0 && aqi <= 50) return '#66BB6A'; // green
-  if (aqi >= 51 && aqi <= 100) return 'yellow';
-  if (aqi >= 101 && aqi <= 150) return 'orange';
-  if (aqi >= 151 && aqi <= 200) return 'red';
-  if (aqi >= 201 && aqi <= 300) return 'purple';
-  if (aqi >= 301 && aqi <= 500) return 'maroon';
+  if (aqi >= 51 && aqi <= 100) return '#FFF176'; // yellow
+  if (aqi >= 101 && aqi <= 150) return '#FFA726'; // orange
+  if (aqi >= 151 && aqi <= 200) return '#EF5350'; // red
+  if (aqi >= 201 && aqi <= 300) return '#9C27B0'; // purple
+  if (aqi >= 301 && aqi <= 500) return '#880E4F'; // maroon
 }
 
 function getColorHumidity (humidity) {
-  if (!humidity) return 'grey';
+  if (!humidity) return '#e2f1f8';
   if (humidity >= 0 && humidity <= 20) return '#B3E5FC';
-  if (humidity >= 21 && humidity <= 40) return '#81D4FA';
-  if (humidity >= 41 && humidity <= 60) return '#4FC3F7';
-  if (humidity >= 61 && humidity <= 80) return '#29B6F6';
-  if (humidity >= 81 && humidity <= 100) return '#03A9F4';
+  if (humidity >= 21 && humidity <= 40) return '#4FC3F7';
+  if (humidity >= 41 && humidity <= 60) return '#03A9F4';
+  if (humidity >= 61 && humidity <= 80) return '#0288D1';
+  if (humidity >= 81 && humidity <= 100) return '#01579B';
 }
 
 function circleStyle (data) {
@@ -50,27 +53,42 @@ class AppScreen extends React.Component {
 
   render () {
     return (
-      <View style={styles.container}>
-        <View style={styles.circleContainer}>
-          <Text style={styles.paragraph}>
-            AQI
+      <View style={{flex: 1}}>
+        <TopBar />
+        {/* <View>
+          <Text>
+            Today
           </Text>
-          <View style={circleStyle(this.props.pollution)}>
-            <Text style={styles.circleText}>
-              {(this.props.pollution.length) ? this.props.pollution[0].aqi : undefined}
-            </Text>
-          </View>
-        </View>
+        </View> */}
+        <View style={styles.container}>
 
-        <View style={styles.circleContainer}>
-          <Text style={styles.paragraph}>
-            Humidity
+          <Text style={styles.sectionHeading}>
+              AQI
           </Text>
-          <View style={circleStyle(this.props.weather)}>
-            <Text style={styles.paragraph}>
-              {(this.props.weather.length) ? this.props.weather[0].humidity : undefined}
-            </Text>
+          <View style={styles.sectionContainer}>
+            <View style={styles.circleContainer}>
+              <View style={circleStyle(this.props.pollution)}>
+                <Text style={styles.circleText}>
+                  {(this.props.pollution.length) ? this.props.pollution[0].aqi : undefined}
+                </Text>
+              </View>
+            </View>
           </View>
+          <AqiBar />
+
+          <Text style={styles.sectionHeading}>
+              Humidity
+          </Text>
+          <View style={styles.sectionContainer}>
+            <View style={styles.circleContainer}>
+              <View style={circleStyle(this.props.weather)}>
+                <Text style={styles.circleText}>
+                  {(this.props.weather.length) ? `${this.props.weather[0].humidity}%` : undefined}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <HumidityBar />
         </View>
       </View>
     )
@@ -82,8 +100,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#546e7a',
+    padding: 16,
+  },
+  sectionHeading: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 16,
     padding: 8,
+    backgroundColor: '#eceff1',
+  },
+  sectionContainer: {
+    flex: .9,
+    backgroundColor: '#eceff1',
+    alignItems: 'center',
   },
   paragraph: {
     margin: 24,
@@ -94,11 +124,11 @@ const styles = StyleSheet.create({
   circleContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10
+    // margin: 10
   },
   circleText: {
     textAlign: 'center',
-    margin: 25,
+    margin: 32,
     fontSize: 18,
     fontWeight: 'bold'
   }

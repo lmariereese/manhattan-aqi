@@ -23,7 +23,17 @@
 #29B6F6 - 400 (61-80)
 #03A9F4 -500 (81-100)
 
+USING THESE:
+#B3E5FC - 100
+#4FC3F7 - 300
+#03A9F4 - 500
+#0288D1 - 700
+#01579B - 900
 
+--- main styles
+#29434e (dark greyblue)
+#546e7a medium greyblue
+#819ca9 light greyblue
 
 // ACCENT GREENS
 // #00e676 (medium)
@@ -51,6 +61,8 @@
 #338a3e - 700
 
 -----yellows
+#FFF59D - 200
+#FFF176 - 300
 #FFEE58 - 400
 #FDD835 - 600
 
@@ -62,10 +74,12 @@
 ------reds
 #EF9A9A - 200
 #EF5350 - 400
+#E53935 - 600
 #D32F2F - 700
 
 ------purple
 #AB47BC - 400
+#9C27B0 - 500
 #8E24AA - 600
 
 ------maroon
